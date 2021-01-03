@@ -31,6 +31,8 @@ window.Vue = require('vue');
 //     el: '#app',
 // });
 
+import List from './components/list';
+
 
 let el = document.querySelector('#board');
 if (el) {
@@ -39,6 +41,9 @@ if (el) {
         data: {
             lists: JSON.parse(el.dataset.lists).data
         },
+        components: {
+            List,
+        }
     })
 }
 

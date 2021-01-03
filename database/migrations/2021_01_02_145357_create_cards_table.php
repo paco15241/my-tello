@@ -19,7 +19,7 @@ class CreateCardsTable extends Migration
             $table->integer('position');
             $table->timestamps();
 
-            $table->foreign('card_list_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('card_list_id')->references('id')->on('card_lists')->onDelete('cascade');
             $table->index('card_list_id');
         });
     }

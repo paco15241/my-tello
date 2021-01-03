@@ -21,12 +21,12 @@ class CardListsController extends Controller
         $perPage = 25;
 
         if (!empty($keyword)) {
-            $cardlists = auth()->user()->card_lists()->where('name', 'LIKE', "%$keyword%")
+            $cardlists = auth()->user()->card_lists()->with('cards')->where('name', 'LIKE', "%$keyword%")
                 ->orWhere('user_id', 'LIKE', "%$keyword%")
                 ->orWhere('position', 'LIKE', "%$keyword%")
                 ->latest()->paginate($perPage);
         } else {
-            $cardlists = auth()->user()->card_lists()->latest()->paginate($perPage);
+            $cardlists = auth()->user()->card_lists()->with('cards')->latest()->paginate($perPage);
         }
 
         return view('card-lists.index', compact('cardlists'));
