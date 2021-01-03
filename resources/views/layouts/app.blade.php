@@ -20,13 +20,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        @include('shared.navbar')
-        @include('shared.flash')
+    @include('shared.navbar')
+    @include('shared.flash')
 
-        <main>
-            @yield('content')
-        </main>
-    </div>
+    <main>
+        @yield('content')
+    </main>
 </body>
 </html>
