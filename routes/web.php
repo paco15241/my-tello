@@ -11,10 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::middleware('auth')->get('/', 'CardListsController@index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->resource('card-lists', 'CardListsController');
+Route::resource('cards', 'CardsController');
