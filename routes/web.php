@@ -11,11 +11,13 @@
 |
 */
 
-Route::middleware('auth')->get('/', 'CardListsController@index');
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->get('/', 'CardListsController@index');
+
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->resource('card-lists', 'CardListsController');
+Route::middleware('auth')->put('card-lists/{id}/move', 'CardListsController@move');
+
 Route::resource('cards', 'CardsController');

@@ -33,6 +33,21 @@ class CardListsController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function move(Request $request, $id)
+    {
+        $cardlist = auth()->user()->card_lists()->findOrFail($id);
+        $cardlist->insertAt((int)$request->input('position'));
+
+        return $cardlist;
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\View\View

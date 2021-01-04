@@ -32,7 +32,7 @@ window.Vue = require('vue');
 // });
 
 import List from './components/list';
-
+import draggable from 'vuedraggable';
 
 let el = document.querySelector('#board');
 if (el) {
@@ -43,6 +43,28 @@ if (el) {
         },
         components: {
             List,
+            draggable
+        },
+        methods: {
+            listMoved(event) {
+                console.log(event);
+                console.log(this.lists);
+                console.log(event.moved.newIndex);
+
+                let data = new URLSearchParams();
+                data.append('position', event.moved.newIndex+1);
+                
+                fetch(`/card-lists/${this.lists[event.moved.newIndex].id}/move`, {
+                    method : 'PUT',
+                    body : data,
+                  }).then((response) => {
+                    return response.json();
+                  }).then((jsonData) => {
+                    console.log(jsonData);
+                  }).catch((error)=>{
+                    console.log(error);
+                  });
+            }
         }
     })
 }
