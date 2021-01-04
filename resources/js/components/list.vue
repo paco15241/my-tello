@@ -3,7 +3,15 @@
     <h2 class="header">{{ list.name }}</h2>
     
     <div class="deck">
-      <Card v-for="card in list.cards" :card="card" :key="card.id"></Card>
+      <Card v-for="card in cards" :card="card" :key="card.id"></Card>
+
+      <div class="input-area">
+        <button v-if="!editing" class="button bg-gray-400" @click="newCard">新增卡片</button>
+
+        <textarea v-if="editing" class="content" v-model="content"></textarea>
+        <button v-if="editing" class="button bg-green-400" @click="createCard">建立卡片</button>
+        <button v-if="editing" class="button bg-gray-400" @click="editing = false">取消</button>
+      </div>
     </div>
   </div>
 </template>
@@ -15,7 +23,40 @@ export default {
   props: ['list'],
   components: {
     Card,
-  }
+  },
+  data() {
+    return {
+      content: '',
+      cards: this.list.cards,
+      editing: false,
+    }
+  },
+  methods: {
+    newCard(event) {
+      event.preventDefault();
+      this.editing = true;
+    },
+    createCard(event) {
+      event.preventDefault();
+
+      let data = new URLSearchParams();
+      data.append("card_list_id", this.list.id);
+      data.append("name", this.content);
+
+      fetch('/cards', {
+        method : 'POST',
+        body : data,
+      }).then((response) => {
+        return response.json();
+      }).then((jsonData) => {
+        this.cards.push(jsonData);
+        this.content = '';
+        this.editing = false;
+      }).catch((error)=>{
+        console.log(error);
+      });
+    },
+  },
 }
 </script>
 
@@ -29,6 +70,26 @@ export default {
 
     .deck {
       @apply mt-2;
+
+    }
+
+    .input-area {
+      @apply mt-2;
+
+      .content {
+        @apply w-full p-2 rounded-sm;
+
+        &:hover {
+          @apply outline-none;
+        }
+      }
+      .button {
+        @apply px-3 py-1 font-semibold text-sm rounded;
+
+        &:hover {
+          @apply outline-none;
+        }
+      }
     }
   }
 </style>

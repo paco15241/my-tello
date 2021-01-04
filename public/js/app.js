@@ -1941,12 +1941,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
   props: ['list'],
   components: {
     Card: _card__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      content: '',
+      cards: this.list.cards,
+      editing: false
+    };
+  },
+  methods: {
+    newCard: function newCard(event) {
+      event.preventDefault();
+      this.editing = true;
+    },
+    createCard: function createCard(event) {
+      var _this = this;
+
+      event.preventDefault();
+      var data = new URLSearchParams();
+      data.append("card_list_id", this.list.id);
+      data.append("name", this.content);
+      fetch('/cards', {
+        method: 'POST',
+        body: data
+      }).then(function (response) {
+        return response.json();
+      }).then(function (jsonData) {
+        _this.cards.push(jsonData);
+
+        _this.content = '';
+        _this.editing = false;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -6411,7 +6453,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}", ""]);
+exports.push([module.i, ".list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
 
 // exports
 
@@ -38268,10 +38310,74 @@ var render = function() {
     _c(
       "div",
       { staticClass: "deck" },
-      _vm._l(_vm.list.cards, function(card) {
-        return _c("Card", { key: card.id, attrs: { card: card } })
-      }),
-      1
+      [
+        _vm._l(_vm.cards, function(card) {
+          return _c("Card", { key: card.id, attrs: { card: card } })
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "input-area" }, [
+          !_vm.editing
+            ? _c(
+                "button",
+                {
+                  staticClass: "button bg-gray-400",
+                  on: { click: _vm.newCard }
+                },
+                [_vm._v("新增卡片")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.editing
+            ? _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.content,
+                    expression: "content"
+                  }
+                ],
+                staticClass: "content",
+                domProps: { value: _vm.content },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.content = $event.target.value
+                  }
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.editing
+            ? _c(
+                "button",
+                {
+                  staticClass: "button bg-green-400",
+                  on: { click: _vm.createCard }
+                },
+                [_vm._v("建立卡片")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.editing
+            ? _c(
+                "button",
+                {
+                  staticClass: "button bg-gray-400",
+                  on: {
+                    click: function($event) {
+                      _vm.editing = false
+                    }
+                  }
+                },
+                [_vm._v("取消")]
+              )
+            : _vm._e()
+        ])
+      ],
+      2
     )
   ])
 }

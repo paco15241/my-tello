@@ -51,12 +51,13 @@ class CardsController extends Controller
      */
     public function store(Request $request)
     {
-        
         $requestData = $request->all();
         
-        Card::create($requestData);
+        $card = Card::create($requestData);
 
-        return redirect('cards')->with('flash_message', 'Card added!');
+        return $card;
+
+        // return redirect('cards')->with('flash_message', 'Card added!');
     }
 
     /**

@@ -16,7 +16,7 @@ class CreateCardListsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->unsignedBigInteger('user_id');
-            $table->integer('position');
+            $table->integer('position')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
