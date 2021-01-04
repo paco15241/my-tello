@@ -39,7 +39,7 @@ if (el) {
     new Vue({
         el,
         data: {
-            lists: JSON.parse(el.dataset.lists).data
+            lists: [],
         },
         components: {
             List,
@@ -65,6 +65,17 @@ if (el) {
                     console.log(error);
                   });
             }
+        },
+        beforeMount() {
+            fetch('/card-lists', {
+                method : 'GET',
+              }).then((response) => {
+                return response.json();
+              }).then((jsonData) => {
+                this.lists = jsonData;
+              }).catch((error)=>{
+                console.log(error);
+              });
         }
     })
 }

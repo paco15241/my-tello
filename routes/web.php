@@ -13,7 +13,9 @@
 
 Auth::routes();
 
-Route::middleware('auth')->get('/', 'CardListsController@index');
+Route::middleware('auth')->get('/', function() {
+  return view('card-lists.index');
+});
 
 // Route::get('/home', 'HomeController@index')->name('home');
 

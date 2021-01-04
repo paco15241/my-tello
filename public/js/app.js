@@ -56819,7 +56819,7 @@ if (el) {
   new Vue({
     el: el,
     data: {
-      lists: JSON.parse(el.dataset.lists).data
+      lists: []
     },
     components: {
       List: _components_list__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -56843,6 +56843,19 @@ if (el) {
           console.log(error);
         });
       }
+    },
+    beforeMount: function beforeMount() {
+      var _this = this;
+
+      fetch('/card-lists', {
+        method: 'GET'
+      }).then(function (response) {
+        return response.json();
+      }).then(function (jsonData) {
+        _this.lists = jsonData;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   });
 }

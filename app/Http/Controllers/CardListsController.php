@@ -15,21 +15,10 @@ class CardListsController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->get('search');
-        $perPage = 25;
-
-        if (!empty($keyword)) {
-            $cardlists = auth()->user()->card_lists()->with('cards')->where('name', 'LIKE', "%$keyword%")
-                ->orWhere('user_id', 'LIKE', "%$keyword%")
-                ->orWhere('position', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $cardlists = auth()->user()->card_lists()->with('cards')->latest()->paginate($perPage);
-        }
-
-        return view('card-lists.index', compact('cardlists'));
+        $cardlists = auth()->user()->card_lists()->with('cards')->get()->makeHidden(['created_at', 'updated_at']);
+        return $cardlists->toJson();
     }
 
     /**
