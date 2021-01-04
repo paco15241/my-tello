@@ -17,8 +17,9 @@ Route::middleware('auth')->get('/', 'CardListsController@index');
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::middleware('auth')->resource('card-lists', 'CardListsController');
+Route::middleware('auth')->resource('card-lists', 'CardListsController')
+                         ->only(['index', 'store', 'update', 'destroy']);
 Route::middleware('auth')->put('card-lists/{id}/move', 'CardListsController@move');
 
-Route::resource('cards', 'CardsController');
+Route::resource('cards', 'CardsController')->only(['store', 'update', 'destroy']);
 Route::put('cards/{id}/move', 'CardsController@move');

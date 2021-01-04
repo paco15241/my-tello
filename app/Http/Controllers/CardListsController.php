@@ -48,16 +48,6 @@ class CardListsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
-    {
-        return view('card-lists.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -72,34 +62,6 @@ class CardListsController extends Controller
         auth()->user()->card_lists()->create($requestData);
 
         return redirect('card-lists')->with('flash_message', 'CardList added!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
-    public function show($id)
-    {
-        $cardlist = auth()->user()->card_lists()->findOrFail($id);
-
-        return view('card-lists.show', compact('cardlist'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit($id)
-    {
-        $cardlist = auth()->user()->card_lists()->findOrFail($id);
-
-        return view('card-lists.edit', compact('cardlist'));
     }
 
     /**

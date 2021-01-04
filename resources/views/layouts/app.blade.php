@@ -20,11 +20,13 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-    @include('shared.navbar')
-    @include('shared.flash')
-
-    <main>
-        @yield('content')
-    </main>
+    <section class="flex flex-col h-screen bg-red-100 overflow-hidden">
+        @include('shared.navbar')
+        @include('shared.flash')
+    
+        <div class="overflow-auto bg-blue-300 h-full">
+            @yield('content')
+        </div>
+    </section>  
 </body>
 </html>

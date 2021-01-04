@@ -1,7 +1,6 @@
 <template>
   <div class="list">
     <h2 class="header">{{ list.name }}</h2>
-    
     <div class="deck">
       <draggable v-model="cards" ghost-class="ghost" group="list" @change="cardMoved">
         <Card v-for="card in cards" :card="card" :key="card.id"></Card>
@@ -93,7 +92,7 @@ export default {
   }
 
   .list {
-    @apply bg-gray-300 mx-2 w-64 rounded px-3 py-1;
+    @apply bg-gray-300 mx-2 w-64 rounded px-3 py-3 flex-none h-full;
 
     .header {
       @apply font-bold;
