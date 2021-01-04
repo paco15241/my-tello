@@ -21,3 +21,4 @@ Route::middleware('auth')->resource('card-lists', 'CardListsController');
 Route::middleware('auth')->put('card-lists/{id}/move', 'CardListsController@move');
 
 Route::resource('cards', 'CardsController');
+Route::put('cards/{id}/move', 'CardsController@move');

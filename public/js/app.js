@@ -1931,6 +1931,10 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _card__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./card */ "./resources/js/components/card.vue");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuedraggable */ "./node_modules/vuedraggable/dist/vuedraggable.umd.js");
+/* harmony import */ var vuedraggable__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vuedraggable__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
 //
 //
 //
@@ -1950,11 +1954,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
   props: ['list'],
   components: {
-    Card: _card__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Card: _card__WEBPACK_IMPORTED_MODULE_0__["default"],
+    draggable: vuedraggable__WEBPACK_IMPORTED_MODULE_1___default.a
   },
   data: function data() {
     return {
@@ -1964,6 +1970,27 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    cardMoved: function cardMoved(event) {
+      var evt = event.added || event.moved;
+
+      if (evt) {
+        var el = evt.element;
+        var card_id = el.id;
+        var data = new URLSearchParams();
+        data.append("position", evt.newIndex + 1);
+        data.append("card_list_id", this.list.id);
+        fetch("/cards/".concat(card_id, "/move"), {
+          method: 'PUT',
+          body: data
+        }).then(function (response) {
+          return response.json();
+        }).then(function (jsonData) {
+          console.log(jsonData);
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }
+    },
     newCard: function newCard(event) {
       event.preventDefault();
       this.editing = true;
@@ -6453,7 +6480,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
+exports.push([module.i, ".ghost[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));\n  --tw-border-opacity: 1;\n  border-color: rgba(156, 163, 175, var(--tw-border-opacity));\n  border-style: dashed;\n  border-width: 2px;\n}\n.list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
 
 // exports
 
@@ -42026,9 +42053,24 @@ var render = function() {
       "div",
       { staticClass: "deck" },
       [
-        _vm._l(_vm.cards, function(card) {
-          return _c("Card", { key: card.id, attrs: { card: card } })
-        }),
+        _c(
+          "draggable",
+          {
+            attrs: { "ghost-class": "ghost", group: "list" },
+            on: { change: _vm.cardMoved },
+            model: {
+              value: _vm.cards,
+              callback: function($$v) {
+                _vm.cards = $$v
+              },
+              expression: "cards"
+            }
+          },
+          _vm._l(_vm.cards, function(card) {
+            return _c("Card", { key: card.id, attrs: { card: card } })
+          }),
+          1
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "input-area" }, [
           !_vm.editing
@@ -42092,7 +42134,7 @@ var render = function() {
             : _vm._e()
         ])
       ],
-      2
+      1
     )
   ])
 }

@@ -3,7 +3,9 @@
     <h2 class="header">{{ list.name }}</h2>
     
     <div class="deck">
-      <Card v-for="card in cards" :card="card" :key="card.id"></Card>
+      <draggable v-model="cards" ghost-class="ghost" group="list" @change="cardMoved">
+        <Card v-for="card in cards" :card="card" :key="card.id"></Card>
+      </draggable>
 
       <div class="input-area">
         <button v-if="!editing" class="button bg-gray-400" @click="newCard">新增卡片</button>
@@ -18,11 +20,14 @@
 
 <script>
 import Card from './card';
+import draggable from 'vuedraggable';
+
 export default {
   name: 'List',
   props: ['list'],
   components: {
     Card,
+    draggable,
   },
   data() {
     return {
@@ -32,6 +37,28 @@ export default {
     }
   },
   methods: {
+    cardMoved(event) {
+      let evt = event.added || event.moved;
+      if (evt) {
+        let el = evt.element;
+        let card_id = el.id;
+
+        let data = new URLSearchParams();
+        data.append("position", evt.newIndex + 1);
+        data.append("card_list_id", this.list.id);
+
+        fetch(`/cards/${card_id}/move`, {
+          method : 'PUT',
+          body : data,
+        }).then((response) => {
+          return response.json();
+        }).then((jsonData) => {
+          console.log(jsonData);
+        }).catch((error)=>{
+          console.log(error);
+        });
+      }
+    },
     newCard(event) {
       event.preventDefault();
       this.editing = true;
@@ -61,6 +88,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .ghost {
+    @apply border-2 border-gray-400 border-dashed bg-gray-200;
+  }
+
   .list {
     @apply bg-gray-300 mx-2 w-64 rounded px-3 py-1;
 

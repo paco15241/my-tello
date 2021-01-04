@@ -33,6 +33,23 @@ class CardsController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     *
+     * @return \Illuminate\View\View
+     */
+    public function move(Request $request, $id)
+    {
+        $requestData = $request->all();
+
+        $card = Card::findOrFail($id);
+        $card->update($requestData);
+
+        return $card;
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\View\View
