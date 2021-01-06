@@ -22,8 +22,21 @@ export default new Vuex.Store({
     ADD_LIST(state, list) {
       state.lists.push(list);
     },
+    REMOVE_LIST(state, list_id) {
+      let list_index = state.lists.findIndex(list => list.id == list_id);
+      state.lists.splice(list_index, 1);
+    },
   },
   actions: {
+    removeList({ commit }, list_id) {
+      fetch(`/card-lists/${list_id}`, {
+        method : 'DELETE',
+      }).then((response) => {
+        commit('REMOVE_LIST', list_id);
+      }).catch((error)=>{
+        console.log(error);
+      });
+    },
     createList({ commit }, list_name) {
       let data = new URLSearchParams();
       data.append('name', list_name);

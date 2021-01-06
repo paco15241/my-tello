@@ -82,8 +82,9 @@ class CardListsController extends Controller
      */
     public function destroy($id)
     {
-        auth()->user()->card_lists()->destroy($id);
-
-        return redirect('card-lists')->with('flash_message', 'CardList deleted!');
+        $cardlist = auth()->user()->card_lists()->findOrFail($id);
+        $cardlist->delete();
+        return ;
+        // return redirect('card-lists')->with('flash_message', 'CardList deleted!');
     }
 }

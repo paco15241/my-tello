@@ -1987,6 +1987,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2004,6 +2009,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    deleteList: function deleteList(event) {
+      event.preventDefault();
+
+      if (confirm('確認刪除列表？')) {
+        this.$store.dispatch('removeList', this.list.id);
+      }
+    },
     cardMoved: function cardMoved(event) {
       var evt = event.added || event.moved;
 
@@ -6563,7 +6575,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".ghost[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));\n  --tw-border-opacity: 1;\n  border-color: rgba(156, 163, 175, var(--tw-border-opacity));\n  border-style: dashed;\n  border-width: 2px;\n}\n.list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  flex: none;\n  height: 100%;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.75rem;\n  padding-bottom: 0.75rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
+exports.push([module.i, ".ghost[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));\n  --tw-border-opacity: 1;\n  border-color: rgba(156, 163, 175, var(--tw-border-opacity));\n  border-style: dashed;\n  border-width: 2px;\n}\n.list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  flex: none;\n  height: 100%;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.75rem;\n  padding-bottom: 0.75rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\nheader[data-v-200b772e] {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}", ""]);
 
 // exports
 
@@ -42237,7 +42249,13 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "list" }, [
-    _c("h2", { staticClass: "header" }, [_vm._v(_vm._s(_vm.list.name))]),
+    _c("header", [
+      _c("h2", { staticClass: "header" }, [_vm._v(_vm._s(_vm.list.name))]),
+      _vm._v(" "),
+      _c("a", { attrs: { href: "#" }, on: { click: _vm.deleteList } }, [
+        _c("i", { staticClass: "far fa-trash-alt" })
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -58740,11 +58758,27 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     ADD_LIST: function ADD_LIST(state, list) {
       state.lists.push(list);
+    },
+    REMOVE_LIST: function REMOVE_LIST(state, list_id) {
+      var list_index = state.lists.findIndex(function (list) {
+        return list.id == list_id;
+      });
+      state.lists.splice(list_index, 1);
     }
   },
   actions: {
-    createList: function createList(_ref, list_name) {
+    removeList: function removeList(_ref, list_id) {
       var commit = _ref.commit;
+      fetch("/card-lists/".concat(list_id), {
+        method: 'DELETE'
+      }).then(function (response) {
+        commit('REMOVE_LIST', list_id);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    createList: function createList(_ref2, list_name) {
+      var commit = _ref2.commit;
       var data = new URLSearchParams();
       data.append('name', list_name);
       fetch("/card-lists", {
@@ -58758,10 +58792,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         console.log(error);
       });
     },
-    updateCard: function updateCard(_ref2, _ref3) {
-      var commit = _ref2.commit;
-      var id = _ref3.id,
-          name = _ref3.name;
+    updateCard: function updateCard(_ref3, _ref4) {
+      var commit = _ref3.commit;
+      var id = _ref4.id,
+          name = _ref4.name;
       var data = new URLSearchParams();
       data.append('name', name);
       fetch("/cards/".concat(id), {
@@ -58776,9 +58810,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         console.log(error);
       });
     },
-    moveList: function moveList(_ref4, event) {
-      var commit = _ref4.commit,
-          state = _ref4.state;
+    moveList: function moveList(_ref5, event) {
+      var commit = _ref5.commit,
+          state = _ref5.state;
       var data = new URLSearchParams();
       data.append('position', event.moved.newIndex + 1);
       fetch("/card-lists/".concat(state.lists[event.moved.newIndex].id, "/move"), {
@@ -58792,8 +58826,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         console.log(error);
       });
     },
-    loadList: function loadList(_ref5) {
-      var commit = _ref5.commit;
+    loadList: function loadList(_ref6) {
+      var commit = _ref6.commit;
       fetch('/card-lists', {
         method: 'GET'
       }).then(function (response) {
