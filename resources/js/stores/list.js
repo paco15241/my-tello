@@ -19,8 +19,26 @@ export default new Vuex.Store({
       let card_index = state.lists[list_index].cards.findIndex(item => item.id == card.id);
       state.lists[list_index].cards.splice(card_index, 1, card);
     },
+    ADD_LIST(state, list) {
+      state.lists.push(list);
+    },
   },
   actions: {
+    createList({ commit }, list_name) {
+      let data = new URLSearchParams();
+      data.append('name', list_name);
+
+      fetch(`/card-lists`, {
+        method : 'POST',
+        body : data,
+      }).then((response) => {
+        return response.json();
+      }).then((jsonData) => {
+        commit('ADD_LIST', jsonData);
+      }).catch((error)=>{
+        console.log(error);
+      });
+    },
     updateCard({ commit }, { id, name }) {
       let data = new URLSearchParams();
       data.append('name', name);

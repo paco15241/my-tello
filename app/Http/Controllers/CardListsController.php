@@ -48,9 +48,10 @@ class CardListsController extends Controller
         
         $requestData = $request->all();
         
-        auth()->user()->card_lists()->create($requestData);
+        $card_list = auth()->user()->card_lists()->create($requestData);
 
-        return redirect('card-lists')->with('flash_message', 'CardList added!');
+        return $card_list;
+        // return redirect('card-lists')->with('flash_message', 'CardList added!');
     }
 
     /**

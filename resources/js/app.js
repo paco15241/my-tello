@@ -31,10 +31,11 @@ window.Vue = require('vue');
 //     el: '#app',
 // });
 
-import List from './components/list';
 import draggable from 'vuedraggable';
 import store from './stores/list';
 import { mapGetters, mapActions } from 'vuex';
+import List from './components/list';
+import Newlist from './components/newlist';
 
 let el = document.querySelector('#board');
 if (el) {
@@ -54,7 +55,8 @@ if (el) {
         },
         components: {
             List,
-            draggable
+            draggable,
+            Newlist,
         },
         methods: {
           ...mapActions(['loadList', 'moveList']),
