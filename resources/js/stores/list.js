@@ -14,8 +14,29 @@ export default new Vuex.Store({
     UPDATE_LISTS(state, lists) {
       state.lists = lists;
     },
+    REPLACE_CARD(state, card) {
+      let list_index = state.lists.findIndex(list => list.id == card.card_list_id);
+      let card_index = state.lists[list_index].cards.findIndex(item => item.id == card.id);
+      state.lists[list_index].cards.splice(card_index, 1, card);
+    },
   },
   actions: {
+    updateCard({ commit }, { id, name }) {
+      let data = new URLSearchParams();
+      data.append('name', name);
+
+      fetch(`/cards/${id}`, {
+        method : 'PUT',
+        body : data,
+      }).then((response) => {
+        return response.json();
+      }).then((jsonData) => {
+        commit('REPLACE_CARD', jsonData);
+        console.log(jsonData);
+      }).catch((error)=>{
+        console.log(error);
+      });
+    },
     moveList( { commit, state }, event) {
       let data = new URLSearchParams();
       data.append('position', event.moved.newIndex+1);

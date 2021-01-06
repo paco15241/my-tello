@@ -1908,15 +1908,50 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Card',
-  props: ['card']
+  props: ['card'],
+  data: function data() {
+    return {
+      card_name: this.card.name,
+      editing: false
+    };
+  },
+  methods: {
+    // ...mapActions(['updateCard']),
+    close: function close(event) {
+      event.preventDefault();
+      this.editing = false;
+    },
+    update: function update(event) {
+      event.preventDefault();
+      this.$store.dispatch('updateCard', {
+        id: this.card.id,
+        name: this.card_name
+      });
+      this.editing = false;
+    }
+  }
 });
 
 /***/ }),
@@ -6460,7 +6495,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".card[data-v-c170f44a] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(243, 244, 246, var(--tw-bg-opacity));\n  border-radius: 0.125rem;\n  margin-bottom: 0.5rem;\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n  padding-left: 0.5rem;\n  padding-right: 0.5rem;\n}", ""]);
+exports.push([module.i, ".card[data-v-c170f44a] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(243, 244, 246, var(--tw-bg-opacity));\n  border-radius: 0.125rem;\n  cursor: pointer;\n  margin-bottom: 0.5rem;\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n  padding-left: 0.5rem;\n  padding-right: 0.5rem;\n}\n.dialog[data-v-c170f44a] {\n  background-color: rgba(0, 0, 0, 0.7);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  height: 100%;\n  position: fixed;\n  top: 0px;\n  left: 0px;\n  width: 100%;\n}\n.dialog .inner[data-v-c170f44a] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));\n  display: flex;\n  flex-direction: column;\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n  padding-left: 1.5rem;\n  padding-right: 1.5rem;\n  width: 700px;\n}\n.dialog .inner .closeButton[data-v-c170f44a] {\n  text-align: right;\n  --tw-text-opacity: 1;\n  color: rgba(31, 41, 55, var(--tw-text-opacity));\n}\n.dialog .inner .content[data-v-c170f44a] {\n  --tw-border-opacity: 1;\n  border-color: rgba(209, 213, 219, var(--tw-border-opacity));\n  border-width: 1px;\n  margin-top: 0.5rem;\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n  padding-left: 0.5rem;\n  padding-right: 0.5rem;\n}\n.dialog .inner .content[data-v-c170f44a]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.dialog .inner .updateButton[data-v-c170f44a] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(156, 163, 175, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  margin-top: 0.5rem;\n  padding-top: 0.5rem;\n  padding-bottom: 0.5rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.dialog .inner .updateButton[data-v-c170f44a]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
 
 // exports
 
@@ -6479,7 +6514,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".ghost[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));\n  --tw-border-opacity: 1;\n  border-color: rgba(156, 163, 175, var(--tw-border-opacity));\n  border-style: dashed;\n  border-width: 2px;\n}\n.list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  flex: none;\n  height: 100%;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.75rem;\n  padding-bottom: 0.75rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:hover {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
+exports.push([module.i, ".ghost[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));\n  --tw-border-opacity: 1;\n  border-color: rgba(156, 163, 175, var(--tw-border-opacity));\n  border-style: dashed;\n  border-width: 2px;\n}\n.list[data-v-200b772e] {\n  --tw-bg-opacity: 1;\n  background-color: rgba(209, 213, 219, var(--tw-bg-opacity));\n  border-radius: 0.25rem;\n  flex: none;\n  height: 100%;\n  margin-left: 0.5rem;\n  margin-right: 0.5rem;\n  padding-top: 0.75rem;\n  padding-bottom: 0.75rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n  width: 16rem;\n}\n.list .header[data-v-200b772e] {\n  font-weight: 700;\n}\n.list .deck[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area[data-v-200b772e] {\n  margin-top: 0.5rem;\n}\n.list .input-area .content[data-v-200b772e] {\n  border-radius: 0.125rem;\n  padding: 0.5rem;\n  width: 100%;\n}\n.list .input-area .content[data-v-200b772e]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}\n.list .input-area .button[data-v-200b772e] {\n  border-radius: 0.25rem;\n  font-weight: 600;\n  font-size: 0.875rem;\n  line-height: 1.25rem;\n  padding-top: 0.25rem;\n  padding-bottom: 0.25rem;\n  padding-left: 0.75rem;\n  padding-right: 0.75rem;\n}\n.list .input-area .button[data-v-200b772e]:focus {\n  outline: 2px solid transparent;\n  outline-offset: 2px;\n}", ""]);
 
 // exports
 
@@ -42019,8 +42054,66 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card" }, [
-    _vm._v("\n  " + _vm._s(_vm.card.name) + "\n")
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "card",
+        on: {
+          click: function($event) {
+            _vm.editing = true
+          }
+        }
+      },
+      [_vm._v("\n    " + _vm._s(_vm.card.name) + "\n  ")]
+    ),
+    _vm._v(" "),
+    _vm.editing
+      ? _c("div", { staticClass: "dialog" }, [
+          _c("div", { staticClass: "inner" }, [
+            _c(
+              "a",
+              {
+                staticClass: "closeButton",
+                attrs: { href: "#" },
+                on: { click: _vm.close }
+              },
+              [_c("i", { staticClass: "fas fa-times" })]
+            ),
+            _vm._v(" "),
+            _c(
+              "textarea",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.card_name,
+                    expression: "card_name"
+                  }
+                ],
+                staticClass: "content",
+                domProps: { value: _vm.card_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.card_name = $event.target.value
+                  }
+                }
+              },
+              [_vm._v(_vm._s(_vm.card_name))]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              { staticClass: "updateButton", on: { click: _vm.update } },
+              [_vm._v("更新")]
+            )
+          ])
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -58364,12 +58457,39 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   mutations: {
     UPDATE_LISTS: function UPDATE_LISTS(state, lists) {
       state.lists = lists;
+    },
+    REPLACE_CARD: function REPLACE_CARD(state, card) {
+      var list_index = state.lists.findIndex(function (list) {
+        return list.id == card.card_list_id;
+      });
+      var card_index = state.lists[list_index].cards.findIndex(function (item) {
+        return item.id == card.id;
+      });
+      state.lists[list_index].cards.splice(card_index, 1, card);
     }
   },
   actions: {
-    moveList: function moveList(_ref, event) {
-      var commit = _ref.commit,
-          state = _ref.state;
+    updateCard: function updateCard(_ref, _ref2) {
+      var commit = _ref.commit;
+      var id = _ref2.id,
+          name = _ref2.name;
+      var data = new URLSearchParams();
+      data.append('name', name);
+      fetch("/cards/".concat(id), {
+        method: 'PUT',
+        body: data
+      }).then(function (response) {
+        return response.json();
+      }).then(function (jsonData) {
+        commit('REPLACE_CARD', jsonData);
+        console.log(jsonData);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    moveList: function moveList(_ref3, event) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
       var data = new URLSearchParams();
       data.append('position', event.moved.newIndex + 1);
       fetch("/card-lists/".concat(state.lists[event.moved.newIndex].id, "/move"), {
@@ -58383,8 +58503,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         console.log(error);
       });
     },
-    loadList: function loadList(_ref2) {
-      var commit = _ref2.commit;
+    loadList: function loadList(_ref4) {
+      var commit = _ref4.commit;
       fetch('/card-lists', {
         method: 'GET'
       }).then(function (response) {

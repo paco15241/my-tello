@@ -61,7 +61,8 @@ class CardsController extends Controller
         $card = Card::findOrFail($id);
         $card->update($requestData);
 
-        return redirect('cards')->with('flash_message', 'Card updated!');
+        return $card;
+        // return redirect('cards')->with('flash_message', 'Card updated!');
     }
 
     /**

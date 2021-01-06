@@ -6764,7 +6764,7 @@ nav .user-button {
   padding-right: 0.75rem;
 }
 
-nav .user-button:hover {
+nav .user-button:focus {
   --tw-bg-opacity: 1;
   background-color: rgba(191, 219, 254, var(--tw-bg-opacity));
 }

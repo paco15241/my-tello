@@ -109,14 +109,14 @@ export default {
       .content {
         @apply w-full p-2 rounded-sm;
 
-        &:hover {
+        &:focus {
           @apply outline-none;
         }
       }
       .button {
         @apply px-3 py-1 font-semibold text-sm rounded;
 
-        &:hover {
+        &:focus {
           @apply outline-none;
         }
       }
